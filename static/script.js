@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const data = await response.json();
             salaryResult.style.display = 'block';
-            salaryResult.textContent = `Predicted Salary: ₱${data.predicted_salary.toFixed(2)}`;
+            salaryResult.textContent = `Predicted Salary: ${data.predicted_salary.toFixed(2)}`;
         });
     }
 
