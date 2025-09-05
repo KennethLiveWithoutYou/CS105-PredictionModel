@@ -10,9 +10,6 @@ __pycache__/
 # Model files
 models/*.pkl
 
-# Data files (optional, ignore if large/private)
-data/*.csv
-
 # Environment variables
 .env
 
