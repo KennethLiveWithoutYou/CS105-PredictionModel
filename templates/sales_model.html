@@ -31,5 +31,13 @@
         </ul>
         <p>NOTE: Only features with an absolute correlation greater than 0.30 were selected.</p>
     </div>
+
+    <div class="model">
+        <h3>Advertising Model</h3>
+        <img src="{{ url_for('static', filename='models/advertise_model_actual_vs_pred.png') }}" alt="Advertising Actual vs Predicted">
+        <img src="{{ url_for('static', filename='models/advertise_model_residuals.png') }}" alt="Advertising Residual Plot">
+        <img src="{{ url_for('static', filename='models/advertise_model_residual_hist.png') }}" alt="Advertising Residual Plot Histogram">
+        <img src="{{ url_for('static', filename='models/advertise_model_qqplot.png') }}" alt="Advertising Q-Q Plot">
+    </div>
 </body>
 </html>

@@ -21,5 +21,13 @@
     </form>
 
     <div id="result"></div>
+
+    <div class="model">
+        <h3>Income Model</h3>
+        <img src="{{ url_for('static', filename='models/income_model_actual_vs_pred.png') }}" alt="Income Actual vs Predicted">
+        <img src="{{ url_for('static', filename='models/income_model_residuals.png') }}" alt="Income Residual Plot">
+        <img src="{{ url_for('static', filename='models/income_model_residual_hist.png') }}" alt="Income Residual Plot Histogram">
+        <img src="{{ url_for('static', filename='models/income_model_qqplot.png') }}" alt="Income Q-Q Plot">
+    </div>
 </body>
 </html>

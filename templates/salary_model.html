@@ -17,5 +17,13 @@
     </form>
 
     <div id="result"></div>
+
+    <div class="model">
+        <h3>Salary Model</h3>
+        <img src="{{ url_for('static', filename='models/salary_model_actual_vs_pred.png') }}" alt="Salary Actual vs Predicted">
+        <img src="{{ url_for('static', filename='models/salary_model_residuals.png') }}" alt="Salary Residual Plot">
+        <img src="{{ url_for('static', filename='models/salary_model_residual_hist.png') }}" alt="Salary Residual Plot Histogram">
+        <img src="{{ url_for('static', filename='models/salary_model_qqplot.png') }}" alt="Salary Q-Q Plot">
+    </div>
 </body>
 </html>
