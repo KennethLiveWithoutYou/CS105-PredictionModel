@@ -7,6 +7,51 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import KFold, cross_val_score, cross_val_predict
 from sklearn.metrics import mean_squared_error
 import numpy as np
+import matplotlib.pyplot as plt
+
+import scipy.stats as stats
+import os
+
+# Make sure the static/models directory exists
+os.makedirs("static/models", exist_ok=True)
+
+def save_regression_plots(y_true, y_pred, model_name):
+    residuals = y_true - y_pred
+    standardized_residuals = residuals / np.std(residuals)
+
+    plt.figure(figsize=(6, 6))
+    plt.scatter(y_true, y_pred, alpha=0.7)
+    plt.plot([y_true.min(), y_true.max()],
+             [y_true.min(), y_true.max()],
+             "r--", lw=2)
+    plt.xlabel("Actual")
+    plt.ylabel("Predicted")
+    plt.title(f"{model_name} - Actual vs Predicted")
+    plt.savefig(f"static/models/{model_name}_actual_vs_pred.png")
+    plt.close()
+
+    plt.figure(figsize=(6, 6))
+    plt.scatter(y_pred, standardized_residuals, alpha=0.7)
+    plt.axhline(0, color="r", linestyle="--")
+    plt.xlabel("Predicted")
+    plt.ylabel("Standardized Residuals")
+    plt.title(f"{model_name} - Residual Plot")
+    plt.savefig(f"static/models/{model_name}_residuals.png")
+    plt.close()
+
+    plt.figure(figsize=(6, 6))
+    plt.hist(standardized_residuals, bins=20, edgecolor="black", alpha=0.7)
+    plt.xlabel("Standardized Residuals")
+    plt.ylabel("Frequency")
+    plt.title(f"{model_name} - Residual Histogram")
+    plt.savefig(f"static/models/{model_name}_residual_hist.png")
+    plt.close()
+
+    plt.figure(figsize=(6, 6))
+    stats.probplot(standardized_residuals, dist="norm", plot=plt)
+    plt.title(f"{model_name} - QQ Plot of Residuals")
+    plt.savefig(f"static/models/{model_name}_qqplot.png")
+    plt.close()
 
 def train_and_save_model(X, y, model_path, metrics_path, corr_path=None, selected_features=None):
     pipe = Pipeline([
@@ -30,7 +75,6 @@ def train_and_save_model(X, y, model_path, metrics_path, corr_path=None, selecte
     print(f"Metrics for {model_path}: {metrics}")
 
     pipe.fit(X, y)
-
     pickle.dump(pipe, open(model_path, "wb"))
 
     with open(metrics_path, "w") as f:
@@ -39,6 +83,9 @@ def train_and_save_model(X, y, model_path, metrics_path, corr_path=None, selecte
     if corr_path:
         with open(corr_path, "wb") as f:
             pickle.dump(selected_features, f)
+
+    model_name = model_path.split("/")[-1].replace(".pkl", "")
+    save_regression_plots(y, cv_preds, model_name)
 
     return pipe
 
@@ -69,7 +116,6 @@ train_and_save_model(
     model_path="models/income_model.pkl",
     metrics_path="models/income_metrics.json"
 )
-
 
 # ADVERTISING DATA
 advertise_data = pd.read_csv("data/advertising-dataset.csv")
