@@ -10,6 +10,9 @@ advertise_model = pickle.load(open("models/advertise_model.pkl", "rb"))
 with open("models/advertise_corr.pkl", "rb") as f:
     advertise_corr = pickle.load(f)
 
+with open("models/advertise_features.pkl", "rb") as f:
+    advertise_features = pickle.load(f)
+
 # HTML PAGES
 @app.route('/')
 def index():
@@ -45,7 +48,10 @@ def predict_income():
 @app.route("/predict_sales", methods=["POST"])
 def predict_sales():
     data = request.json
-    features = [[data["TV"], data["Radio"]]]
+    try:
+        features = [[data[feat] for feat in advertise_features]]
+    except KeyError as e:
+        return jsonify({"error": f"Missing required feature: {e.args[0]}"}), 400
     pred = advertise_model.predict(features)
     return jsonify({"predicted_sales": float(pred[0])})
 
