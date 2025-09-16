@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 import scipy.stats as stats
 import os
 
-# Make sure the static/models directory exists
 os.makedirs("static/models", exist_ok=True)
 
 def save_regression_plots(y_true, y_pred, model_name):
